@@ -17,8 +17,7 @@ public class ZineFormatter : MonoBehaviour
 	[SerializeField] protected Image _topRightImage;
 	[SerializeField] protected Image _bottomLeftImage;
 	[SerializeField] protected Image _bottomRightImage;
-	[SerializeField] protected string _volume;
-	[SerializeField] protected List<Sprite> _pages;
+	[SerializeField] protected PageCollection _pageCollection;
 
 	protected bool _formattingZine;
 	protected PageType _currPageType;
@@ -55,16 +54,16 @@ public class ZineFormatter : MonoBehaviour
 		_outputPageIndex = 0;
 		_lastXPosition = _pageParent.anchoredPosition.x;
 
-		for (int j = 0; j < _pages.Count; j += 8)
+		for (int j = 0; j < _pageCollection.pages.Count; j += 8)
 		{
 			_currPageIndex = j;
 			Sprite[] currPages = new Sprite[8];
 
 			for (int i = _currPageIndex; i < _currPageIndex + 8; i++)
 			{
-				if (i < _pages.Count)
+				if (i < _pageCollection.pages.Count)
 				{
-					currPages[i - _currPageIndex] = _pages[i];
+					currPages[i - _currPageIndex] = _pageCollection.pages[i];
 				}
 				else
 				{
@@ -114,7 +113,7 @@ public class ZineFormatter : MonoBehaviour
 
 	protected void TakePicture()
 	{
-		string path = Path.Combine("Output", string.Format("Vol{0}_Page{1}{2}.png", _volume, _outputPageIndex, _currPageType));
+		string path = Path.Combine("Output", string.Format("Vol{0}_Page{1}{2}.png", _pageCollection.volume, _outputPageIndex, _currPageType));
 		Application.CaptureScreenshot(path);
 		RectTransform copy = Instantiate(_pageParent, _pageParent.parent) as RectTransform;
 		copy.anchoredPosition = new Vector2(_lastXPosition + copy.rect.width + _padding, copy.anchoredPosition.y);

@@ -15,6 +15,8 @@ public class ZineFormatterEditor : Editor
 
 	public override void OnInspectorGUI()
 	{
+		DrawDefaultInspector();
+
 		serializedObject.Update();
 
 		EditorGUILayout.Space();

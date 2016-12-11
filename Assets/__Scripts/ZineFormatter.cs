@@ -17,6 +17,7 @@ public class ZineFormatter : MonoBehaviour
 	[SerializeField] protected Image _topRightImage;
 	[SerializeField] protected Image _bottomLeftImage;
 	[SerializeField] protected Image _bottomRightImage;
+	[SerializeField] protected Sprite _fillerPage;
 	[SerializeField] protected PageCollection _pageCollection;
 
 	protected bool _formattingZine;
@@ -54,7 +55,7 @@ public class ZineFormatter : MonoBehaviour
 		_outputPageIndex = 0;
 		_lastXPosition = _pageParent.anchoredPosition.x;
 
-		for (int j = 0; j < _pageCollection.pages.Count; j += 8)
+		for (int j = 0; j < _pageCollection.pages.Count + 1; j += 8)
 		{
 			_currPageIndex = j;
 			Sprite[] currPages = new Sprite[8];
@@ -67,7 +68,14 @@ public class ZineFormatter : MonoBehaviour
 				}
 				else
 				{
-					currPages[i - _currPageIndex] = null;
+					if (i == _currPageIndex + 7)
+					{
+						currPages[i - _currPageIndex] = _pageCollection.backCover;
+					}
+					else
+					{
+						currPages[i - _currPageIndex] = _fillerPage;
+					}
 				}
 			}
 
